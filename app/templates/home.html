@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% include "_extractor_panel.html" %}
+
+  <section class="content-section reveal">
+    <div class="section-heading">
+      <span class="eyebrow">Platformalar</span>
+      <h2 class="section-title">Har bir ijtimoiy tarmoq uchun alohida SEO-friendly sahifalar</h2>
+      <p class="section-copy">Yangi platforma qo'shish uchun registry ga bitta obyekt qo'shish yetadi. Home, navigation va sitemap avtomatik yangilanadi.</p>
+    </div>
+
+    <div class="platform-grid">
+      {% for item in platform_pages %}
+      <a class="surface platform-card" href="{{ request.url_for('platform_page', page_slug=item.slug) }}">
+        <span class="platform-card__badge">{{ item.label }}</span>
+        <h3>{{ item.meta_title }}</h3>
+        <p>{{ item.summary }}</p>
+        <span class="platform-card__cta">Sahifani ochish</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="content-section reveal">
+    <div class="section-heading">
+      <span class="eyebrow">Imkoniyatlar</span>
+      <h2 class="section-title">Front-end va API bir xil contract asosida ishlaydi</h2>
+    </div>
+
+    <div class="feature-grid">
+      <article class="surface feature-card">
+        <h3>Bir xil natija formati</h3>
+        <p>Provider va extractor almashsa ham sahifa `metadata`, `media` va `config` bloklari bilan bir xil ishlaydi.</p>
+      </article>
+      <article class="surface feature-card">
+        <h3>Proxy stream tayyor</h3>
+        <p>Hotlinking yoki signed link bo'lsa, download tugmasi avtomatik tarzda `/stream` orqali ishlaydi.</p>
+      </article>
+      <article class="surface feature-card">
+        <h3>Release uchun mos xatolar</h3>
+        <p>Xatolik bo'lsa foydalanuvchi aniq message va error code ko'radi, ichki tafsilotlar esa log fayllarda qoladi.</p>
+      </article>
+    </div>
+  </section>
+{% endblock %}

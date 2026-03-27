@@ -1,0 +1,70 @@
+<section class="extractor-app reveal" data-extractor-app data-example-url="{{ panel_example_url }}">
+  <div class="hero-grid">
+    <div class="surface hero-copy">
+      <span class="eyebrow">{{ panel_badge }}</span>
+      <h1 class="headline">{{ panel_title }}</h1>
+      <p class="lead">{{ panel_description }}</p>
+
+      <form class="extract-form" data-extract-form>
+        <label class="field-label" for="media-url-input">Media havolasi</label>
+        <div class="input-row">
+          <div class="input-wrap">
+            <input
+              id="media-url-input"
+              class="url-input"
+              type="url"
+              name="url"
+              data-url-input
+              placeholder="{{ panel_placeholder }}"
+              autocomplete="off"
+              spellcheck="false"
+              required
+            >
+          </div>
+          <button class="primary-button" type="submit" data-submit>
+            Yuklab olish
+          </button>
+        </div>
+
+        <div class="helper-row">
+          <button class="ghost-button" type="button" data-fill-example>Namuna qo'yish</button>
+          <span class="helper-copy">Sifatlar, audio, subtitle va rasm variantlari mavjud bo'lsa shu yerda chiqadi.</span>
+        </div>
+      </form>
+    </div>
+
+    <aside class="promo-stack">
+      <article class="surface promo-card">
+        <span class="eyebrow">Reklama</span>
+        <h2>OdeGate kanaliga qo'shiling</h2>
+        <p>Yangilanishlar, release xabarlar va foydali media workflow postlari kanal ichida bo'ladi.</p>
+        <a class="promo-link" href="{{ telegram_url }}" target="_blank" rel="noopener noreferrer">Kanalga o'tish</a>
+      </article>
+
+      <article class="surface tiny-card">
+        <span class="eyebrow">API</span>
+        <p>Shu interfeys ostida bir xil JSON contract bilan ishlaydigan FastAPI backend turibdi.</p>
+        <a class="inline-link" href="{{ api_docs_url }}" target="_blank" rel="noopener noreferrer">Docs ochish</a>
+      </article>
+    </aside>
+  </div>
+
+  <section class="surface result-surface">
+    <div class="state-empty" data-state-empty>
+      <span class="eyebrow">Tayyor</span>
+      <h2>Havolani kiriting va variantlarni oching</h2>
+      <p>Natija chiqganda shu yerda sifatlar, audio-only, subtitles, rasmlar va zarur bo'lsa proxy holati ko'rsatiladi.</p>
+    </div>
+
+    <div class="loading-shell" data-state-loading hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <div>
+        <h2>Media tahlil qilinyapti</h2>
+        <p>Extractorlar havolani tekshiradi, mavjud formatlar va metama'lumotlarni yig'adi.</p>
+      </div>
+    </div>
+
+    <div class="error-slot" data-state-error hidden></div>
+    <div class="success-slot" data-state-success hidden></div>
+  </section>
+</section>

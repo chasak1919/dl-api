@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% include "_extractor_panel.html" %}
+
+  <section class="content-section reveal">
+    <div class="section-heading">
+      <span class="eyebrow">{{ page.label }}</span>
+      <h2 class="section-title">{{ page.meta_title }}</h2>
+      <p class="section-copy">{{ page.summary }}</p>
+    </div>
+
+    <div class="feature-grid">
+      {% for feature in page.features %}
+      <article class="surface feature-card">
+        <h3>{{ page.label }} workflow</h3>
+        <p>{{ feature }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="content-section reveal">
+    <div class="section-heading">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="section-title">{{ page.label }} downloader haqida ko'p so'raladigan savollar</h2>
+    </div>
+
+    <div class="faq-list">
+      {% for item in page.faq %}
+      <details class="surface faq-item">
+        <summary>{{ item.question }}</summary>
+        <div class="faq-body">
+          <p>{{ item.answer }}</p>
+        </div>
+      </details>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="content-section reveal">
+    <div class="section-heading">
+      <span class="eyebrow">Boshqa sahifalar</span>
+      <h2 class="section-title">Qolgan platforma landinglar</h2>
+    </div>
+
+    <div class="platform-grid">
+      {% for item in platform_pages if item.slug != page.slug %}
+      <a class="surface platform-card" href="{{ request.url_for('platform_page', page_slug=item.slug) }}">
+        <span class="platform-card__badge">{{ item.label }}</span>
+        <h3>{{ item.meta_title }}</h3>
+        <p>{{ item.summary }}</p>
+        <span class="platform-card__cta">Ochish</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

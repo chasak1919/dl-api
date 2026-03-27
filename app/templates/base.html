@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ seo.title }}</title>
+  <meta name="description" content="{{ seo.description }}">
+  <meta name="keywords" content="{{ seo.keywords }}">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="{{ accent_start }}">
+  <link rel="canonical" href="{{ seo.canonical_url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site_name }}">
+  <meta property="og:title" content="{{ seo.title }}">
+  <meta property="og:description" content="{{ seo.description }}">
+  <meta property="og:url" content="{{ seo.canonical_url }}">
+  <meta property="og:image" content="{{ seo.og_image }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ seo.title }}">
+  <meta name="twitter:description" content="{{ seo.description }}">
+  <meta name="twitter:image" content="{{ seo.og_image }}">
+  <link rel="icon" href="{{ request.url_for('static', path='favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ request.url_for('static', path='site.css') }}">
+  <script defer src="{{ request.url_for('static', path='site.js') }}"></script>
+  <script type="application/ld+json">{{ structured_data | safe }}</script>
+</head>
+<body class="{{ body_class }}" style="--accent-start: {{ accent_start }}; --accent-end: {{ accent_end }}; --glow-tint: {{ glow_tint }};">
+  <div class="site-backdrop" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand-mark" href="{{ request.url_for('home_page') }}">
+        <span class="brand-mark__orb"></span>
+        <span class="brand-mark__text">
+          <strong>OdeGate</strong>
+          <span>Media Downloader</span>
+        </span>
+      </a>
+
+      <nav class="nav-track" aria-label="Platformalar">
+        <a class="nav-chip {% if request.url.path == request.url_for('home_page').path %}is-active{% endif %}" href="{{ request.url_for('home_page') }}">
+          Bosh sahifa
+        </a>
+        {% for nav_page in platform_pages %}
+        <a class="nav-chip {% if page is defined and page.slug == nav_page.slug %}is-active{% endif %}" href="{{ request.url_for('platform_page', page_slug=nav_page.slug) }}">
+          {{ nav_page.label }}
+        </a>
+        {% endfor %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-copy">
+        <h2>Media linklarini tartibli va tez boshqarish uchun tayyor UI</h2>
+        <p>{{ site_description }}</p>
+      </div>
+
+      <div class="footer-links">
+        <a class="footer-link" href="{{ telegram_url }}" target="_blank" rel="noopener noreferrer">Telegram kanal</a>
+        <a class="footer-link" href="{{ api_schema_url }}" target="_blank" rel="noopener noreferrer">OpenAPI JSON</a>
+      </div>
+    </div>
+
+    <a class="footer-corner" href="{{ api_docs_url }}" target="_blank" rel="noopener noreferrer">API docs</a>
+  </footer>
+</body>
+</html>
